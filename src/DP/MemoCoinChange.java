@@ -1,0 +1,24 @@
+package DP;
+
+import java.util.Arrays;
+
+public class MemoCoinChange {
+    static int[][] memo;
+    public static void main(String[] args) {
+        System.out.println(fun(new int[]{2, 5, 3, 6},10));
+    }
+
+    static int fun(int[] arr, int sum){
+        memo=new int[arr.length+1][sum+1];
+        for(int[] row : memo) Arrays.fill(row,-1);
+        return helper(arr,sum,arr.length);
+    }
+
+    private static int helper(int[] arr, int sum, int n) {
+        if(sum==0) return 1;
+        if(n==0 || sum<0) return 0;
+        if(memo[n][sum]!=-1) return memo[n][sum];
+        if(arr[n-1]<=sum) return memo[n][sum] = helper(arr, sum-arr[n-1],n) + helper(arr, sum,n-1) ;
+        return memo[n][sum] = helper(arr, sum,n-1);
+    }
+}
